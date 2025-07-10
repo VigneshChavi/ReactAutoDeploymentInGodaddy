@@ -22,7 +22,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          React Auto Deployement in Github to Godaddy
+          React Auto Deployement in Github to Godaddy Develop and Production
         </p>
       </div>
       <p className="read-the-docs">
