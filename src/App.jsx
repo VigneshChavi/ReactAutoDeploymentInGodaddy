@@ -22,7 +22,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          React Auto Deployement in Github to Godaddy
         </p>
       </div>
       <p className="read-the-docs">
