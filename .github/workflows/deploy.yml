@@ -31,7 +31,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: sftp
-          port: 22
+          protocol: ftp
+          port: 21
           server-dir: ${{ github.ref == 'refs/heads/main' && '/public_html/reactautodeplymain.dreamore.in' || '/public_html/reactautodeploydevelop.dreamore.in' }}
           local-dir: dist/
