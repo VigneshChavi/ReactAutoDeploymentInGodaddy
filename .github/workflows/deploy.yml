@@ -1,0 +1,37 @@
+name: Auto Deploy Vite App to GoDaddy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Vite App
+        run: npm run build
+
+      - name: Deploy via SFTP to GoDaddy
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: sftp
+          port: 22
+          server-dir: ${{ github.ref == 'refs/heads/main' && '/public_html/reactautodeplymain.dreamore.in' || '/public_html/reactautodeploydevelop.dreamore.in' }}
+          local-dir: dist/
