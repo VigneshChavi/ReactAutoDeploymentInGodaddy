@@ -1,10 +1,9 @@
-name: Auto Deploy Vite App to GoDaddy
+name: Auto Deploy Vite to GitHub Pages
 
 on:
   push:
     branches:
-      - main
-      - develop
+      - develop  # Deployment will run on push to the develop branch
 
 jobs:
   build-and-deploy:
@@ -19,19 +18,17 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
       - name: Build Vite App
         run: npm run build
 
-      - name: Deploy via SFTP to GoDaddy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Add CNAME File for Custom Domain
+        run: echo "reactautodeploydevelop.dreamore.in" > dist/CNAME
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          server-dir: ${{ github.ref == 'refs/heads/main' && '/public_html/reactautodeploymain.dreamore.in/' || '/public_html/reactautodeploydevelop.dreamore.in/' }}
-          local-dir: dist/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
