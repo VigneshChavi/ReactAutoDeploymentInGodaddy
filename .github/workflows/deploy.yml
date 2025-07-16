@@ -1,37 +1,34 @@
-name: Auto Deploy Vite App to GoDaddy
+name: Deploy to GoDaddy
 
 on:
   push:
     branches:
       - main
-      - develop
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install Dependencies
+      run: npm install
 
-      - name: Build Vite App
-        run: npm run build
+    - name: Build Project
+      run: npm run build
 
-      - name: Deploy via SFTP to GoDaddy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          server-dir: ${{ github.ref == 'refs/heads/main' && '/public_html/reactautodeploymain.dreamore.in/' || '/public_html/reactautodeploydevelop.dreamore.in/' }}
-          local-dir: dist/
+    - name: Deploy via SSH
+      uses: easingthemes/ssh-deploy@v2.1.5
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: /home/${{ secrets.REMOTE_USER }}/public_html/reactautodeploymain.dreamore.in
+        SOURCE: dist/
