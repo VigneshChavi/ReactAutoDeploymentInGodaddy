@@ -22,7 +22,7 @@ function App() {
           count is {count}
         </button>
         <p>
-         Vignesh Explore the Github to Godaddy Auto Deployment and Akshya and Veermani and Work
+         Vignesh Explore the Github to Godaddy Auto Deployment and Akshya and Veeramani Work Done
         </p>
       </div>
       <p className="read-the-docs">
